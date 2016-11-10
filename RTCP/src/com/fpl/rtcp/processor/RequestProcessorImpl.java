@@ -14,31 +14,52 @@ public class RequestProcessorImpl implements RequestProcessor {
 	@Override
 	public IsCellResponseVO dipNumber(IsCellRequestVO input) throws Exception {
 		IsCellResponseVO response = new IsCellResponseVO();
-
-		MBIsCellResponseVO mbResponse = mbConnector.dipNumber(input
-				.getDipRequest().getPhone_number());
-
 		DipResponse dipResponse = new DipResponse();
-		
 
-		
+		if (input.getDipType().equals("1")) {
+			response.setMessage("Preference Portal Check is not yet ready");
+			response.setNoOfErrors("1");
+			response.setCode("1");
+			dipResponse.setIsCell("false");
+		}
 
-		if (mbResponse.getError().isEmpty()) {
-			response.setMessage("Success");
-			response.setNoOfErrors("0");
-			response.setCode("0");
-			dipResponse.setIsCell(mbResponse.getIsCell());
+		else if (input.getDipType().equals("2")) {
+
+			MBIsCellResponseVO mbResponse = mbConnector.dipNumber(input
+					.getDipRequest().getPhone_number());
+
+			if (mbResponse.getError().isEmpty()) {
+				response.setMessage("Success");
+				response.setNoOfErrors("0");
+				response.setCode("0");
+				dipResponse.setIsCell(mbResponse.getIsCell());
+			}
+
+			else {
+				response.setMessage(mbResponse.getError());
+				response.setNoOfErrors("1");
+				response.setCode("1");
+				dipResponse.setIsCell("false");
+			}
+
+			
+		}
+
+		else if (input.getDipType().equals("3")) {
+			response.setMessage("Preference Portal Check is not yet ready");
+			response.setNoOfErrors("1");
+			response.setCode("1");
+			dipResponse.setIsCell("false");
 		}
 
 		else {
-			response.setMessage(mbResponse.getError());
+			response.setMessage("Invalid Dip Type");
 			response.setNoOfErrors("1");
 			response.setCode("1");
 			dipResponse.setIsCell("false");
 		}
 		
 		response.setDipResponse(dipResponse);
-
 		return response;
 	}
 
