@@ -8,7 +8,7 @@
 		<servlet-class>com.ibm.websphere.jaxrs.server.IBMRestServlet</servlet-class>
 		<init-param>
 			<param-name >javax.ws.rs.Application</param-name>
-			<param-value >com.fpl.rtcp.service.RealTimeCommunicationPlatformApplication</param-value>
+			<param-value >com.fpl.rtcp.service.restfull.RealTimeCommunicationPlatformApplication</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		<enabled>true</enabled>
